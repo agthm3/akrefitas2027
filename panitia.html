@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panitia Pelaksana — AKREFITAS 2027</title>
+  
+  <meta name="description" content="Struktur Lengkap Panitia Pelaksana, Coster, dan Steering Committee AKREFITAS 2027.">
+  <meta name="theme-color" content="#3E2B1F">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/style.css">
+
+  <script src="js/config.js"></script>
+  <script src="js/components/navbar.js" defer></script>
+  <script src="js/components/footer.js" defer></script>
+</head>
+<body>
+
+  <!-- Ambient Texture -->
+  <div class="ancient-parchment-overlay" aria-hidden="true"></div>
+
+  <!-- Reusable Navbar -->
+  <site-navbar></site-navbar>
+
+  <!-- HEADER PANITIA -->
+  <header class="page-hero-section">
+    <div class="container page-hero-content">
+      <div class="section-badge">STRUKTUR ORGANISASI</div>
+      <h1 class="page-title">PANITIA PELAKSANA</h1>
+      <p class="page-subtitle">
+        Para penggagas, pengarah, dan relawan muda yang mendedikasikan energi terbaiknya demi terselenggaranya perhelatan akbar AKREFITAS 2027.
+      </p>
+      <div class="section-divider-ornament">
+        <svg viewBox="0 0 160 20" class="motif-divider"><path d="M0,10 Q40,0 80,10 Q120,20 160,10" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN COMMITTEE -->
+  <main class="section panitia-main-section">
+    <div class="container">
+
+      <!-- TIER 1: KETUA PELAKSANA (FEATURED SPOTLIGHT) -->
+      <section class="committee-tier leader-spotlight-tier">
+        <div class="tier-header">
+          <span class="comp-element badge-fire">PIMPINAN UTAMA</span>
+          <h2 class="tier-title">KETUA PELAKSANA</h2>
+          <p class="tier-desc">Nahkoda utama penggerak sinergi seluruh elemen panitia AKREFITAS 2027.</p>
+        </div>
+        <div class="leader-spotlight-wrap" id="chairpersonContainer">
+          <!-- Dirender dari config.js -->
+        </div>
+      </section>
+
+      <!-- TIER 2: PANITIA PELAKSANA (BPH, KOORDINATOR, & ANGGOTA) -->
+      <section class="committee-tier">
+        <div class="tier-header">
+          <span class="comp-element badge-water">ORGANIZING COMMITTEE</span>
+          <h2 class="tier-title">PANITIA PELAKSANA & ANGGOTA</h2>
+          <p class="tier-desc">BPH Inti, para koordinator divisi, dan segenap relawan lapangan yang mengawal jalannya kegiatan.</p>
+        </div>
+        <div class="cutout-cast-grid" id="organizingContainer">
+          <!-- Dirender dari config.js -->
+        </div>
+      </section>
+
+      <!-- TIER 3: COSTER (1 ORANG - SEKARANG DI ATAS STEERING COMMITTEE) -->
+      <section class="committee-tier coster-tier">
+        <div class="tier-header">
+          <span class="comp-element badge-air">PENGENDALI LAPANGAN</span>
+          <h2 class="tier-title">COSTER</h2>
+          <p class="tier-desc">Komandan lapangan utama pengatur ritme, waktu, dan dinamika arena perlombaan.</p>
+        </div>
+        <div class="coster-spotlight-wrap" id="costerContainer">
+          <!-- Dirender dari config.js -->
+        </div>
+      </section>
+
+      <!-- TIER 4: STEERING COMMITTEE (DEWAN PENGARAH) -->
+      <section class="committee-tier">
+        <div class="tier-header">
+          <span class="comp-element badge-earth">DEWAN PENGARAH</span>
+          <h2 class="tier-title">STEERING COMMITTEE</h2>
+          <p class="tier-desc">Penasihat senior dan pengarah teknis yang menjamin mutu dan marwah kepalangmerahan.</p>
+        </div>
+        <div class="cutout-cast-grid" id="steeringContainer">
+          <!-- Dirender dari config.js -->
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Reusable Footer -->
+  <site-footer></site-footer>
+
+  <!-- SCRIPT RENDER PANITIA -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      if (typeof SITE_CONFIG === 'undefined' || !SITE_CONFIG.committee) return;
+
+      const elementBadgeClasses = {
+        EARTH: "badge-earth",
+        WATER: "badge-water",
+        FIRE: "badge-fire",
+        AIR: "badge-air"
+      };
+
+      // Template Card Personil
+      const renderMemberCard = (member, isSpecial = false) => {
+        const badgeClass = elementBadgeClasses[member.element] || "badge-earth";
+        const stageClass = isSpecial ? "pose-stage-wrap leader-stage" : "pose-stage-wrap";
+        const imgClass = isSpecial ? "pose-cutout-img leader-img" : "pose-cutout-img";
+
+        return `
+          <div class="pose-person-item ${isSpecial ? 'leader-item' : ''}">
+            <div class="${stageClass}">
+              <img src="${member.image}" alt="${member.name}" class="${imgClass}" 
+                   onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\\'http://www.w3.org/2000/svg\\' viewBox=\\'0 0 200 300\\' fill=\\'%23C29A52\\' opacity=\\'0.3\\'%3E%3Cpath d=\\'M100 40a40 40 0 1 0 0 80 40 40 0 0 0 0-80zm0 100c-44 0-80 25-80 60v60h160v-60c0-35-36-60-80-60z\\'/%3E%3C/svg%3E';">
+              <div class="pose-natural-shadow"></div>
+              <div class="pose-pedestal"></div>
+            </div>
+            <div class="pose-person-info">
+              <span class="comp-element ${badgeClass}">${member.element}</span>
+              <h3 class="person-name">${member.name}</h3>
+              <p class="person-role">${member.role}</p>
+              ${member.division ? `<span class="person-div-tag">${member.division}</span>` : ''}
+              ${member.quote ? `<p class="person-quote">&ldquo;${member.quote}&rdquo;</p>` : ''}
+            </div>
+          </div>
+        `;
+      };
+
+      // 1. Render Ketua Pelaksana (Spotlight Teratas)
+      const chairEl = document.getElementById("chairpersonContainer");
+      if (chairEl && SITE_CONFIG.committee.chairperson) {
+        chairEl.innerHTML = renderMemberCard(SITE_CONFIG.committee.chairperson, true);
+      }
+
+      // 2. Render Panitia Pelaksana & Anggota
+      const organizingEl = document.getElementById("organizingContainer");
+      if (organizingEl && SITE_CONFIG.committee.organizingTeam) {
+        organizingEl.innerHTML = SITE_CONFIG.committee.organizingTeam.map(m => renderMemberCard(m, false)).join("");
+      }
+
+      // 3. Render Coster (1 Orang - Di Atas Steering Committee)
+      const costerEl = document.getElementById("costerContainer");
+      if (costerEl && SITE_CONFIG.committee.coster) {
+        costerEl.innerHTML = renderMemberCard(SITE_CONFIG.committee.coster, true);
+      }
+
+      // 4. Render Steering Committee (Dewan Pengarah)
+      const steeringEl = document.getElementById("steeringContainer");
+      if (steeringEl && SITE_CONFIG.committee.steering) {
+        steeringEl.innerHTML = SITE_CONFIG.committee.steering.map(m => renderMemberCard(m, false)).join("");
+      }
+    });
+  </script>
+</body>
+</html>

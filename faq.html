@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FAQ Resmi — AKREFITAS 2027</title>
+  
+  <meta name="description" content="Pusat Pertanyaan dan Jawaban Seputar Pendaftaran, Ketentuan Lomba, Juknis, dan Regulasi AKREFITAS 2027.">
+  <meta name="theme-color" content="#3E2B1F">
+  
+  <!-- Google Fonts: Cinzel & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/style.css">
+
+  <script src="js/config.js"></script>
+  <script src="js/components/navbar.js" defer></script>
+  <script src="js/components/footer.js" defer></script>
+</head>
+<body>
+
+  <!-- Ambient Paper Texture -->
+  <div class="ancient-parchment-overlay" aria-hidden="true"></div>
+
+  <!-- Reusable Navbar -->
+  <site-navbar></site-navbar>
+
+  <!-- FAQ HERO HEADER -->
+  <header class="page-hero-section">
+    <div class="container page-hero-content">
+      <div class="section-badge">PUSAT BANTUAN & INFORMASI</div>
+      <h1 class="page-title">PERTANYAAN UMUM (FAQ)</h1>
+      <p class="page-subtitle">
+        Temukan jawaban lengkap mengenai alur pendaftaran, regulasi lomba, juknis teknis, dan informasi pelaksanaan AKREFITAS 2027.
+      </p>
+      <div class="section-divider-ornament">
+        <svg viewBox="0 0 160 20" class="motif-divider"><path d="M0,10 Q40,0 80,10 Q120,20 160,10" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+      </div>
+    </div>
+  </header>
+
+  <!-- FAQ ACCORDION SECTION -->
+  <main class="section faq-main-section">
+    <div class="container">
+      <div class="faq-container" id="faqContainer">
+        <!-- Dirender dinamis dari config.js -->
+      </div>
+
+      <!-- FAQ CTA BANTUAN -->
+      <div class="faq-help-box">
+        <div class="faq-help-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        </div>
+        <div class="faq-help-body">
+          <h3>Pertanyaan Anda Belum Terjawab?</h3>
+          <p>Tim Helpdesk Panitia AKREFITAS 2027 siap membantu mengklarifikasi kendala administrasi kontingen Anda.</p>
+        </div>
+        <a href="#" class="btn btn-primary btn-whatsapp" target="_blank" rel="noopener">
+          HUBUNGI HELPDESK
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Reusable Footer -->
+  <site-footer></site-footer>
+
+  <!-- Script Khusus FAQ Accordion -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Inisialisasi link kontak helpdesk
+      if (typeof SITE_CONFIG !== 'undefined' && SITE_CONFIG.whatsappUrl) {
+        document.querySelectorAll(".btn-whatsapp").forEach(btn => btn.href = SITE_CONFIG.whatsappUrl);
+      }
+
+      const container = document.getElementById("faqContainer");
+      if (!container || typeof SITE_CONFIG === 'undefined' || !SITE_CONFIG.faqCategories) return;
+
+      const elementBadgeClasses = {
+        EARTH: "badge-earth",
+        WATER: "badge-water",
+        FIRE: "badge-fire",
+        AIR: "badge-air"
+      };
+
+      // Render Accordion
+      container.innerHTML = SITE_CONFIG.faqCategories.map((group, groupIdx) => `
+        <div class="faq-group">
+          <div class="faq-group-header">
+            <span class="comp-element ${elementBadgeClasses[group.element] || "badge-earth"}">${group.element}</span>
+            <h2 class="faq-group-title">${group.elementTitle}</h2>
+          </div>
+          <div class="faq-items-list">
+            ${group.items.map((item, itemIdx) => `
+              <div class="faq-item" id="faq-${groupIdx}-${itemIdx}">
+                <button class="faq-question-btn" aria-expanded="false">
+                  <span class="faq-q-text">${item.q}</span>
+                  <span class="faq-chevron">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                  </span>
+                </button>
+                <div class="faq-answer-panel">
+                  <div class="faq-answer-inner">
+                    ${item.a}
+                  </div>
+                </div>
+              </div>
+            `).join("")}
+          </div>
+        </div>
+      `).join("");
+
+      // Logic Accordion Interaktif (Expand / Collapse)
+      document.querySelectorAll(".faq-question-btn").forEach(button => {
+        button.addEventListener("click", () => {
+          const faqItem = button.closest(".faq-item");
+          const isOpen = faqItem.classList.contains("active");
+
+          // Tutup accordion lain dalam grup yang sama (opsional: bersih & terfokus)
+          const parentList = faqItem.closest(".faq-items-list");
+          parentList.querySelectorAll(".faq-item").forEach(item => {
+            item.classList.remove("active");
+            item.querySelector(".faq-question-btn").setAttribute("aria-expanded", "false");
+          });
+
+          if (!isOpen) {
+            faqItem.classList.add("active");
+            button.setAttribute("aria-expanded", "true");
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

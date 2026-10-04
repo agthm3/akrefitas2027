@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AKREFITAS 2027 — AVATAR</title>
+  <!-- SEO & Open Graph Metadata -->
+  <meta name="description" content="Portal resmi AKREFITAS 2027. Kompetisi PMR dua tahunan bertema AVATAR: Aksi Visioner, Aktualisasi Talenta, dan Aspirasi Relawan Muda.">
+  <meta name="keywords" content="AKREFITAS 2027, PMR, Palang Merah Remaja, Relawan Muda, Kompetisi PMR, AVATAR, Krisis Iklim, Sanitasi Air, Polusi Udara">
+  <meta name="theme-color" content="#3E2B1F">
+  
+  <meta property="og:title" content="AKREFITAS 2027 — AVATAR">
+  <meta property="og:description" content="Digital Hub resmi kompetisi akbar relawan muda dua tahunan. Eksplorasi 4 elemen ketangkasan PMR dan respon krisis lingkungan.">
+  <meta property="og:type" content="website">
+  
+  <!-- Google Fonts: Cinzel (Display) & Plus Jakarta Sans (Body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- Konfigurasi & Komponen Reusable (Navbar & Footer) -->
+  <script src="js/config.js"></script>
+  <script src="js/components/navbar.js" defer></script>
+  <script src="js/components/footer.js" defer></script>
+</head>
+<body>
+
+  <!-- Overlay Tekstur Kertas Kuno Ambient -->
+  <div class="ancient-parchment-overlay" aria-hidden="true"></div>
+
+  <!-- REUSABLE NAVBAR (Dikelola mandiri di js/components/navbar.js) -->
+  <site-navbar></site-navbar>
+
+  <!-- HERO SECTION -->
+  <header class="hero-section" id="hero">
+    <!-- Mandala Geometri Elemen Kuno -->
+    <div class="hero-mandala-wrap" aria-hidden="true">
+      <svg class="hero-mandala" viewBox="0 0 600 600">
+        <circle cx="300" cy="300" r="280" class="ring-outer" />
+        <circle cx="300" cy="300" r="220" class="ring-dash" />
+        <circle cx="300" cy="300" r="160" class="ring-middle" />
+        <circle cx="300" cy="300" r="90" class="ring-inner" />
+        <path d="M140,300 C140,240 220,240 300,300 C380,360 460,360 460,300" class="element-curve water-wave" />
+        <path d="M300,140 C360,140 360,220 300,300 C240,380 240,460 300,460" class="element-curve air-spiral" />
+      </svg>
+    </div>
+
+    <div class="container hero-content">
+      <div class="hero-emblem-wrap">
+        <img id="heroLogoImg" src="" alt="Logo Resmi AKREFITAS 2027" class="hero-main-logo" style="display: none;">
+      </div>
+      <h1 class="hero-title">
+        <span class="hero-title-main">AKREFITAS</span>
+        <span class="hero-title-year">2027</span>
+      </h1>
+      
+      <div class="theme-emblem">
+        <span class="elemental-dot dot-water" title="Water"></span>
+        <span class="elemental-dot dot-earth" title="Earth"></span>
+        <span class="theme-name">AVATAR</span>
+        <span class="elemental-dot dot-fire" title="Fire"></span>
+        <span class="elemental-dot dot-air" title="Air"></span>
+      </div>
+
+      <p class="hero-tagline">
+        &ldquo;Aksi Visioner, Aktualisasi Talenta, dan Aspirasi Relawan Muda.&rdquo;
+      </p>
+
+      <div class="hero-action-group">
+        <a href="#" class="btn btn-primary btn-register" target="_blank" rel="noopener">
+          <span>DAFTAR SEKARANG</span>
+          <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M5 12h14M12 5l7 7-7 7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="#informasi" class="btn btn-secondary">
+          LIHAT INFORMASI
+        </a>
+        <a href="faq.html" class="btn btn-secondary btn-faq-nav">
+          PUSAT FAQ
+        </a>
+      </div>
+    </div>
+
+    <!-- Petunjuk Gulir -->
+    <a href="#countdown-section" class="scroll-cue" aria-label="Gulir ke bawah">
+      <span class="cue-label">EKSPLORASI</span>
+      <span class="cue-line"></span>
+    </a>
+  </header>
+
+  <!-- SECTION: COUNTDOWN MENUJU 2027 -->
+  <section class="section countdown-section" id="countdown-section">
+    <div class="container">
+      <div class="countdown-card">
+        <div class="countdown-header">
+          <span class="ornament-line"></span>
+          <h2 class="countdown-title">MENUJU HARI PELAKSANAAN (AGUSTUS 2027)</h2>
+          <span class="ornament-line"></span>
+        </div>
+        <div class="countdown-grid" id="countdownGrid">
+          <div class="countdown-box">
+            <span class="countdown-number" id="days">--</span>
+            <span class="countdown-label">DAYS</span>
+          </div>
+          <div class="countdown-box">
+            <span class="countdown-number" id="hours">--</span>
+            <span class="countdown-label">HOURS</span>
+          </div>
+          <div class="countdown-box">
+            <span class="countdown-number" id="minutes">--</span>
+            <span class="countdown-label">MINUTES</span>
+          </div>
+          <div class="countdown-box">
+            <span class="countdown-number" id="seconds">--</span>
+            <span class="countdown-label">SECONDS</span>
+          </div>
+        </div>
+        <div class="countdown-status" id="countdownStatus"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION: TENTANG AKREFITAS -->
+  <section class="section about-section" id="tentang">
+    <div class="container">
+      <div class="section-badge">IDENTITAS & FILOSOFI</div>
+      <h2 class="section-title">TENTANG AKREFITAS</h2>
+      <div class="section-divider-ornament">
+        <svg viewBox="0 0 160 20" class="motif-divider"><path d="M0,10 Q40,0 80,10 Q120,20 160,10" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+      </div>
+
+      <div class="about-grid">
+        <div class="about-prose">
+          <p class="lead-text">
+            <strong>AKREFITAS</strong> merupakan ajang kompetisi kepalangmerahan bergengsi yang diselenggarakan setiap dua tahun sekali, mempertemukan talenta-talenta Palang Merah Remaja (PMR) dalam wadah silaturahmi, ketangkasan, dan kepekaan sosial.
+          </p>
+          <p>
+            Di tahun 2027, tema <strong>AVATAR</strong> hadir bukan sekadar wacana filosofis, melainkan <strong>panggilan darurat atas krisis alam</strong>. Di tengah maraknya pencemaran air, kabut polusi udara akibat kebakaran hutan, dan krisis lingkungan, relawan muda dituntut mengembalikan keseimbangan melalui 4 pilar aksi:
+          </p>
+          <div class="about-pillars">
+            <div class="pillar-item">
+              <span class="pillar-bullet water-bullet"></span>
+              <div><strong>Konservasi & Sanitasi (Water):</strong> Tanggap terhadap pencemaran sumber air, sanitasi darurat, dan krisis hidrasi masyarakat.</div>
+            </div>
+            <div class="pillar-item">
+              <span class="pillar-bullet air-bullet"></span>
+              <div><strong>Advokasi & Respirasi Bersih (Air):</strong> Siaga bencana polusi kabut asap, proteksi saluran napas, dan kampanye udara segar.</div>
+            </div>
+            <div class="pillar-item">
+              <span class="pillar-bullet earth-bullet"></span>
+              <div><strong>Ketahanan Ekosistem (Earth):</strong> Mitigasi kerusakan tanah, kesiapsiagaan logistik, dan stabilitas pangkalan kemanusiaan.</div>
+            </div>
+            <div class="pillar-item">
+              <span class="pillar-bullet fire-bullet"></span>
+              <div><strong>Respon Cepat & Evakuasi (Fire):</strong> Ketangkasan menjinakkan dampak kebakaran, simulasi evakuasi korban, dan kobaran dedikasi penolong.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="about-visual-panel">
+          <div class="balance-circle">
+            <div class="circle-quadrant q-water" data-label="WATER"></div>
+            <div class="circle-quadrant q-earth" data-label="EARTH"></div>
+            <div class="circle-quadrant q-fire" data-label="FIRE"></div>
+            <div class="circle-quadrant q-air" data-label="AIR"></div>
+            <div class="circle-core">
+              <span>HARMONI</span>
+              <small>RELAWAN</small>
+            </div>
+          </div>
+          <div class="balance-caption">
+            &ldquo;Memulihkan keseimbangan elemen alam lewat aksi kerelawanan nyata.&rdquo;
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION: AVATAR / THE FOUR ELEMENTS (REVISI ISU LINGKUNGAN & KRISIS PENCEMARAN) -->
+  <section class="section avatar-concept-section" id="avatar-concept">
+    <div class="container">
+      <div class="section-badge">KRISIS LINGKUNGAN & RESPON RELAWAN</div>
+      <h2 class="section-title">THE FOUR ELEMENTS</h2>
+      <p class="section-subtitle">Menghadapi darurat pencemaran air, udara, api kebakaran, dan kerusakan alam lewat ketangkasan relawan muda.</p>
+
+      <div class="elements-harmony-grid">
+        <!-- Water Element: Isu Pencemaran Air & Sanitasi -->
+        <article class="element-card card-water">
+          <div class="element-header">
+            <div class="element-glyph-box">
+              <svg viewBox="0 0 60 60" class="element-svg">
+                <path d="M30 10 C30 10 15 28 15 39 C15 48 21.7 54 30 54 C38.3 54 45 48 45 39 C45 28 30 10 30 10 Z" fill="none" stroke="currentColor" stroke-width="2.5"/>
+              </svg>
+            </div>
+            <span class="element-sub">ISU PENCEMARAN AIR & SANITASI</span>
+            <h3 class="element-name">WATER</h3>
+          </div>
+          <p class="element-desc">
+            Limbah dan pencemaran mengancam sumber air bersih kehidupan. Relawan muda hadir lewat edukasi <em>WASH (Water, Sanitation, & Hygiene)</em>, mitigasi penyakit menular berbasis air, dan pemulihan kemurnian lingkungan demi kesehatan generasi penerus.
+          </p>
+          <div class="element-footer-line"></div>
+        </article>
+
+        <!-- Air Element: Isu Polusi Udara & Kabut Asap Kebakaran -->
+        <article class="element-card card-air">
+          <div class="element-header">
+            <div class="element-glyph-box">
+              <svg viewBox="0 0 60 60" class="element-svg">
+                <path d="M12 24 Q32 24 36 18 A6 6 0 1 0 30 13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                <path d="M10 34 Q38 34 44 40 A6 6 0 1 1 38 46" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <span class="element-sub">ISU POLUSI UDARA & KABUT ASAP</span>
+            <h3 class="element-name">AIR</h3>
+          </div>
+          <p class="element-desc">
+            Asap kebakaran hutan dan emisi beracun merampas hak bernapas bersih. Menjawab ancaman ISPA dan krisis respirasi, relawan PMR memelopori kesiapsiagaan masker darurat, advokasi ruang bersih, serta kampanye langit biru bebas polusi.
+          </p>
+          <div class="element-footer-line"></div>
+        </article>
+
+        <!-- Fire Element: Isu Bencana Kebakaran & Gelombang Panas -->
+        <article class="element-card card-fire">
+          <div class="element-header">
+            <div class="element-glyph-box">
+              <svg viewBox="0 0 60 60" class="element-svg">
+                <path d="M30 8 C34 18 46 26 46 38 C46 48 38.8 54 30 54 C21.2 54 14 48 14 38 C14 28 22 22 25 15 C26 23 30 26 34 26 C36 21 34 14 30 8 Z" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <span class="element-sub">ISU KEBAKARAN & IKLIM EKSTREM</span>
+            <h3 class="element-name">FIRE</h3>
+          </div>
+          <p class="element-desc">
+            Amukan api karhutla dan gelombang panas ekstrem menuntut tindakan tanpa ragu. Diwujudkan dalam ketangkasan evakuasi darurat, penanganan luka bakar, rekayasa jalur selamat, dan kobaran api semangat untuk menolong tanpa pamrih.
+          </p>
+          <div class="element-footer-line"></div>
+        </article>
+
+        <!-- Earth Element: Isu Kerusakan Tanah & Bencana Alam -->
+        <article class="element-card card-earth">
+          <div class="element-header">
+            <div class="element-glyph-box">
+              <svg viewBox="0 0 60 60" class="element-svg">
+                <polygon points="30,10 50,48 10,48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/>
+                <line x1="18" y1="36" x2="42" y2="36" stroke="currentColor" stroke-width="2"/>
+              </svg>
+            </div>
+            <span class="element-sub">ISU DEGRADASI TANAH & BENCANA</span>
+            <h3 class="element-name">EARTH</h3>
+          </div>
+          <p class="element-desc">
+            Deforestasi, tanah longsor, dan kekeringan menggoyahkan pijakan bumi. Relawan menjadi pilar penopang melalui ketahanan logistik, kesiapan tenda darurat, manajemen posko bencana, serta komitmen merawat kembali kelestarian daratan.
+          </p>
+          <div class="element-footer-line"></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION: PERJALANAN AKREFITAS (TIMELINE DUMMY 2027) -->
+  <section class="section journey-section" id="perjalanan">
+    <div class="container">
+      <div class="section-badge">LINIMASA ELEMENTAL</div>
+      <h2 class="section-title">PERJALANAN AKREFITAS 2027</h2>
+      <p class="section-subtitle">Rangkaian tahapan perjalanan menuju puncak gelanggang persahabatan relawan muda.</p>
+      <div class="elemental-timeline" id="timelineContainer">
+        <!-- Dirender dinamis dari config.js -->
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION: KOMPETISI -->
+  <section class="section competitions-section" id="kompetisi">
+    <div class="container">
+      <div class="section-badge">ARENA TANDING</div>
+      <h2 class="section-title">CABANG KOMPETISI</h2>
+      <p class="section-subtitle">Wadah unjuk kemampuan, sportivitas, dan standar baku kepalangmerahan remaja.</p>
+      <div class="competitions-grid" id="competitionsContainer">
+        <!-- Dirender dinamis dari config.js -->
+      </div>
+      <div class="section-cta-box">
+        <a href="#" class="btn btn-secondary btn-juknis" target="_blank" rel="noopener">
+          LIHAT DETAIL TEKNIS KOMPETISI
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION: PUSAT DOKUMEN -->
+  <section class="section documents-section" id="dokumen">
+    <div class="container">
+      <div class="section-badge">REPOSITORI RESMI</div>
+      <h2 class="section-title">PUSAT DOKUMEN</h2>
+      <p class="section-subtitle">Seluruh berkas persyaratan, pedoman juknis, dan formulir tersimpan rapi pada Google Drive resmi.</p>
+
+      <div class="doc-links-grid">
+        <a href="#" class="doc-item-card btn-juknis" target="_blank" rel="noopener">
+          <div class="doc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+          <div class="doc-meta">
+            <h4>JUKNIS AKREFITAS</h4>
+            <p>Petunjuk teknis lomba, kriteria penilaian, dan tata tertib umum.</p>
+          </div>
+          <span class="doc-arrow">&rarr;</span>
+        </a>
+
+        <a href="#" class="doc-item-card btn-formulir" target="_blank" rel="noopener">
+          <div class="doc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg></div>
+          <div class="doc-meta">
+            <h4>FORMULIR & BERKAS</h4>
+            <p>Formulir biodata delegasi, surat mandat, dan format lampiran pendukung.</p>
+          </div>
+          <span class="doc-arrow">&rarr;</span>
+        </a>
+
+        <a href="#" class="doc-item-card btn-panduan" target="_blank" rel="noopener">
+          <div class="doc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg></div>
+          <div class="doc-meta">
+            <h4>PANDUAN PESERTA</h4>
+            <p>Informasi akomodasi, alur kedatangan, dan protokol kegiatan.</p>
+          </div>
+          <span class="doc-arrow">&rarr;</span>
+        </a>
+
+        <a href="#" class="doc-item-card btn-dokumen-lain" target="_blank" rel="noopener">
+          <div class="doc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg></div>
+          <div class="doc-meta">
+            <h4>DOKUMEN LAINNYA</h4>
+            <p>Folder kompilasi rilis media, denah lokasi tanding, dan berkas arsip.</p>
+          </div>
+          <span class="doc-arrow">&rarr;</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION: PENDAFTARAN (CALL TO ACTION) -->
+  <section class="section register-cta-section" id="pendaftaran">
+    <div class="container">
+      <div class="register-ancient-banner">
+        <div class="banner-border-corner top-left"></div>
+        <div class="banner-border-corner top-right"></div>
+        <div class="banner-border-corner bottom-left"></div>
+        <div class="banner-border-corner bottom-right"></div>
+
+        <div class="banner-content">
+          <div class="section-badge">GERBANG PENDAFTARAN</div>
+          <h2 class="cta-heading">SIAP MENJADI BAGIAN DARI AKREFITAS 2027?</h2>
+          <p class="cta-subheading">
+            Tunjukkan aksi visionermu, aktualisasikan talenta kepalangmerahan, dan kibarkan panji kontingen sekolahmu di gelanggang persahabatan dua tahunan.
+          </p>
+          <div class="cta-button-holder">
+            <a href="#" class="btn btn-primary btn-large btn-register" target="_blank" rel="noopener">
+              DAFTAR SEKARANG VIA GOOGLE FORM
+            </a>
+          </div>
+          <small class="cta-note">*Pendaftaran resmi dikelola terpusat melalui form yang diverifikasi panitia.</small>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION: PENGUMUMAN (DUMMY 2027) -->
+  <section class="section announcements-section" id="informasi">
+    <div class="container">
+      <div class="section-badge">WARTA RESMI</div>
+      <h2 class="section-title">INFORMASI & PENGUMUMAN</h2>
+      <p class="section-subtitle">Pembaruan berkala dari panitia pelaksana AKREFITAS 2027.</p>
+      <div class="announcements-list" id="announcementsContainer">
+        <!-- Dirender dinamis dari config.js -->
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION: WHATSAPP / TETAP TERHUBUNG -->
+  <section class="section connect-section" id="kontak">
+    <div class="container">
+      <div class="connect-card">
+        <h2 class="connect-title">TETAP TERHUBUNG</h2>
+        <p class="connect-desc">Ikuti informasi tercepat, pengumuman darurat, dan siaran langsung AKREFITAS 2027 melalui kanal resmi kami.</p>
+        <div class="connect-actions">
+          <a href="#" class="btn btn-primary btn-whatsapp-channel" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" class="inline-icon" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+            GABUNG WHATSAPP CHANNEL
+          </a>
+          <a href="#" class="btn btn-secondary btn-whatsapp" target="_blank" rel="noopener">
+            HUBUNGI HELPDESK PANITIA
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REUSABLE FOOTER (Dikelola mandiri di js/components/footer.js) -->
+  <site-footer></site-footer>
+
+  <!-- Runtime Script -->
+  <script src="js/app.js"></script>
+</body>
+</html>
