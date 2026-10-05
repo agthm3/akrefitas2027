@@ -2032,3 +2032,12 @@ body.menu-locked {
 .nav-audio-controller.playing .eq-bar {
   animation: eqBounce 1.2s infinite ease-in-out alternate;
 }
+
+.nav-audio-btn {
+  min-width: 44px; /* Standar kenyamanan sentuhan jari mobile */
+  min-height: 38px;
+  touch-action: manipulation; /* Mencegah delay 300ms di browser HP */
+  -webkit-tap-highlight-color: transparent;
+  position: relative;
+  z-index: 1002; /* Berada di atas layer lain */
+}

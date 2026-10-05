@@ -192,16 +192,11 @@ class SiteNavbar extends HTMLElement {
     const widget = this.querySelector('#navAudioWidget');
     if (!audio || !toggleBtn) return;
 
-    // Paksa load audio metadata
-    try {
-      audio.load();
-    } catch (e) {}
-
     audio.volume = (typeof SITE_CONFIG !== 'undefined' && SITE_CONFIG.audioVolume) 
       ? SITE_CONFIG.audioVolume 
       : 0.5;
 
-    // Pulihkan detik lagu dari sessionStorage jika ada
+    // Pulihkan progres detik lagu jika ada
     const savedTime = sessionStorage.getItem('akrefitas_audio_time');
     if (savedTime && !isNaN(parseFloat(savedTime))) {
       audio.currentTime = parseFloat(savedTime);
@@ -227,8 +222,7 @@ class SiteNavbar extends HTMLElement {
         promise.then(() => {
           sessionStorage.setItem('akrefitas_audio_playing', 'true');
         }).catch((err) => {
-          // Normal jika browser membatasi autoplay sebelum ada gestur
-          console.warn("Autoplay status:", err.message);
+          console.warn("Mobile autoplay restriction:", err.message);
         });
       }
     };
@@ -238,26 +232,8 @@ class SiteNavbar extends HTMLElement {
       sessionStorage.setItem('akrefitas_audio_playing', 'false');
     };
 
-    // 1. First user interaction unlock (Sentuhan/klik pertama di layar)
-    const handleFirstGesture = (e) => {
-      if (toggleBtn.contains(e.target)) return;
-
-      const isUserMuted = sessionStorage.getItem('akrefitas_audio_user_muted') === 'true';
-      if (!isUserMuted && audio.paused) {
-        playTheme();
-      }
-
-      ['pointerdown', 'touchstart', 'click', 'keydown'].forEach(evt => {
-        window.removeEventListener(evt, handleFirstGesture, true);
-      });
-    };
-
-    ['pointerdown', 'touchstart', 'click', 'keydown'].forEach(evt => {
-      window.addEventListener(evt, handleFirstGesture, { capture: true, once: true });
-    });
-
-    // 2. Kontrol Tombol Manual di Navbar
-    toggleBtn.addEventListener('click', (e) => {
+    // 1. KONTROL TOMBOL DI NAVBAR (Bisa Klik / Tap Langsung di Mobile)
+    const handleToggleClick = (e) => {
       e.preventDefault();
       e.stopPropagation();
 
@@ -268,6 +244,31 @@ class SiteNavbar extends HTMLElement {
         sessionStorage.setItem('akrefitas_audio_user_muted', 'true');
         pauseTheme();
       }
+    };
+
+    toggleBtn.addEventListener('click', handleToggleClick);
+    toggleBtn.addEventListener('touchend', handleToggleClick);
+
+    // 2. UNLOCK KHUSUS MOBILE (Menggunakan 'touchend' Aktif, BUKAN Passive)
+    // Di iOS Safari & Chrome Mobile, 'touchend' adalah event paling valid untuk membuka kunci audio
+    const unlockMobileAudio = (e) => {
+      // Jika sentuhan mengenai tombol toggle itu sendiri, biarkan listener tombol yang menangani
+      if (toggleBtn.contains(e.target)) return;
+
+      const isUserMuted = sessionStorage.getItem('akrefitas_audio_user_muted') === 'true';
+      if (!isUserMuted && audio.paused) {
+        playTheme();
+      }
+
+      // Hapus listener setelah sentuhan pertama berhasil
+      ['touchend', 'click'].forEach(evt => {
+        document.removeEventListener(evt, unlockMobileAudio, false);
+      });
+    };
+
+    // Pasang di document dengan passive: false (krusial untuk mobile browser!)
+    ['touchend', 'click'].forEach(evt => {
+      document.addEventListener(evt, unlockMobileAudio, { capture: false, once: true, passive: false });
     });
 
     // Jika sebelumnya di halaman lain statusnya sudah bermain, lanjutkan
