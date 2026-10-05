@@ -1,5 +1,5 @@
 /**
- * AKREFITAS 2027 — NAVBAR DENGAN INTEGRATED AUDIO CONTROLLER
+ * AKREFITAS 2027 — NAVBAR DENGAN INTEGRATED AUDIO CONTROLLER (STABIL)
  */
 
 class SiteNavbar extends HTMLElement {
@@ -12,9 +12,10 @@ class SiteNavbar extends HTMLElement {
       ? SITE_CONFIG.logoUrl
       : 'assets/images/logo-akrefitas.png';
 
-    const audioSrc = (typeof SITE_CONFIG !== 'undefined' && SITE_CONFIG.audioUrl)
+    // Pastikan jika SITE_CONFIG.audioUrl kosong, gunakan default path
+    const audioSrc = (typeof SITE_CONFIG !== 'undefined' && SITE_CONFIG.audioUrl && SITE_CONFIG.audioUrl.trim() !== '')
       ? SITE_CONFIG.audioUrl
-      : 'assets/audio/theme.mp3';
+      : 'assets/audio/theme.MP3';
 
     this.innerHTML = `
       <div class="nav-backdrop" id="navBackdrop"></div>
@@ -109,7 +110,6 @@ class SiteNavbar extends HTMLElement {
     const dropdownToggle = this.querySelector('#dropdownBtn');
     const dropdownParent = this.querySelector('#infoDropdown');
 
-    // Sticky scroll effect
     window.addEventListener('scroll', () => {
       if (window.scrollY > 30) {
         navbar.classList.add('scrolled');
@@ -136,7 +136,6 @@ class SiteNavbar extends HTMLElement {
       dropdownToggle.setAttribute('aria-expanded', 'false');
     };
 
-    // Tombol Hamburger
     hamburger.addEventListener('click', () => {
       if (navMenu.classList.contains('open')) {
         closeMenu();
@@ -147,16 +146,14 @@ class SiteNavbar extends HTMLElement {
 
     backdrop.addEventListener('click', closeMenu);
 
-    // FIX 1: Handler Klik Dropdown Khusus Mobile & Desktop
     dropdownToggle.addEventListener('click', (e) => {
       e.preventDefault();
-      e.stopPropagation(); // Mencegah bubbling agar tidak menutup menu drawer
+      e.stopPropagation();
       const isCurrentlyActive = dropdownParent.classList.contains('active');
       dropdownParent.classList.toggle('active', !isCurrentlyActive);
       dropdownToggle.setAttribute('aria-expanded', !isCurrentlyActive);
     });
 
-    // Desktop hover: keluar dari area dropdown menutup menu
     dropdownParent.addEventListener('mouseleave', () => {
       if (window.innerWidth > 768) {
         dropdownParent.classList.remove('active');
@@ -164,7 +161,6 @@ class SiteNavbar extends HTMLElement {
       }
     });
 
-    // Menutup dropdown jika klik di luar area navbar
     document.addEventListener('click', (e) => {
       if (!dropdownParent.contains(e.target)) {
         dropdownParent.classList.remove('active');
@@ -172,7 +168,6 @@ class SiteNavbar extends HTMLElement {
       }
     });
 
-    // FIX 2: Hanya link biasa (bukan tombol toggle dropdown) yang menutup drawer
     const regularNavLinks = navMenu.querySelectorAll('a:not(.nav-dropdown-toggle)');
     regularNavLinks.forEach(link => {
       link.addEventListener('click', () => {
@@ -181,24 +176,21 @@ class SiteNavbar extends HTMLElement {
     });
   }
 
- initAudioLogic() {
+  initAudioLogic() {
     const audio = this.querySelector('#navbarAudio');
     const toggleBtn = this.querySelector('#navAudioBtn');
     const widget = this.querySelector('#navAudioWidget');
     if (!audio || !toggleBtn) return;
 
-    // Set default volume
     audio.volume = (typeof SITE_CONFIG !== 'undefined' && SITE_CONFIG.audioVolume) 
       ? SITE_CONFIG.audioVolume 
-      : 0.45;
+      : 0.5;
 
-    // Pulihkan detik lagu dari sessionStorage jika ada
     const savedTime = sessionStorage.getItem('akrefitas_audio_time');
     if (savedTime && !isNaN(parseFloat(savedTime))) {
       audio.currentTime = parseFloat(savedTime);
     }
 
-    // Fungsi Update UI Status
     const setUIPlaying = (isPlaying) => {
       if (isPlaying) {
         widget.classList.add('playing');
@@ -207,23 +199,19 @@ class SiteNavbar extends HTMLElement {
       }
     };
 
-    // Sinkronkan status UI saat audio play/pause alami
     audio.addEventListener('play', () => setUIPlaying(true));
     audio.addEventListener('pause', () => setUIPlaying(false));
     audio.addEventListener('timeupdate', () => {
       sessionStorage.setItem('akrefitas_audio_time', audio.currentTime);
     });
 
-    // FUNGSI PLAY AMAN (Hanya dipanggil ketika sudah ada gesture)
     const playTheme = () => {
-      if (!audio.paused) return;
-      
       const promise = audio.play();
       if (promise !== undefined) {
         promise.then(() => {
           sessionStorage.setItem('akrefitas_audio_playing', 'true');
-        }).catch(() => {
-          // Abaikan jika browser masih menahan
+        }).catch((err) => {
+          console.warn("Autoplay ditahan browser sampai ada interaksi:", err.message);
         });
       }
     };
@@ -233,41 +221,28 @@ class SiteNavbar extends HTMLElement {
       sessionStorage.setItem('akrefitas_audio_playing', 'false');
     };
 
-    // JANGAN PERNAH PANGGIL audio.play() DI SINI SECARA OTOMATIS!
-    // KITA HANYA PASANG EVENT HANDLER UNTUK INTERAKSI PERTAMA:
-    
-    let hasInteracted = false;
-
+    // First click handler di layar dokumen
     const handleFirstGesture = (e) => {
-      // Jika interaksi pertama berasal dari tombol toggle itu sendiri, biarkan listener toggleBtn yang urus
       if (toggleBtn.contains(e.target)) return;
 
-      if (!hasInteracted) {
-        hasInteracted = true;
-        
-        // Cek apakah pengunjung sebelumnya pernah sengaja menekan Mute
-        const isUserMuted = sessionStorage.getItem('akrefitas_audio_user_muted') === 'true';
-        if (!isUserMuted) {
-          playTheme();
-        }
+      const isUserMuted = sessionStorage.getItem('akrefitas_audio_user_muted') === 'true';
+      if (!isUserMuted && audio.paused) {
+        playTheme();
       }
 
-      // Hapus semua listener interaksi pertama setelah tereksekusi
-      ['pointerdown', 'touchstart', 'mousedown', 'keydown', 'scroll'].forEach(evt => {
-        window.removeEventListener(evt, handleFirstGesture, true);
+      ['click', 'touchstart', 'keydown'].forEach(evt => {
+        document.removeEventListener(evt, handleFirstGesture);
       });
     };
 
-    // Pasang penangkap gestur pertama di level window (Capture Mode)
-    ['pointerdown', 'touchstart', 'mousedown', 'keydown', 'scroll'].forEach(evt => {
-      window.addEventListener(evt, handleFirstGesture, { capture: true, passive: true });
+    ['click', 'touchstart', 'keydown'].forEach(evt => {
+      document.addEventListener(evt, handleFirstGesture, { once: true });
     });
 
-    // KONTROL MANUAL TOMBOL NAVBAR (Selalu 100% Berhasil karena Trusted Click)
+    // KONTROL TOMBOL DI NAVBAR (Bebas dari typo xq)
     toggleBtn.addEventListener('click', (e) => {
       e.preventDefault();
       e.stopPropagation();
-      hasInteracted = true;
 
       if (audio.paused) {
         sessionStorage.removeItem('akrefitas_audio_user_muted');
@@ -277,11 +252,6 @@ class SiteNavbar extends HTMLElement {
         pauseTheme();
       }
     });
-
-    // Khusus jika user berpindah halaman (navigasi SPA / halaman kedua)
-    if (sessionStorage.getItem('akrefitas_audio_playing') === 'true') {
-      playTheme();
-    }
   }
 }
 
