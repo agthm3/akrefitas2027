@@ -1,5 +1,5 @@
 /**
- * AKREFITAS 2027 — NAVBAR DENGAN INTEGRATED AUDIO CONTROLLER (STABIL)
+ * AKREFITAS 2027 — NAVBAR DENGAN INTEGRATED AUDIO CONTROLLER & DROPDOWN (LENGKAP)
  */
 
 class SiteNavbar extends HTMLElement {
@@ -12,15 +12,18 @@ class SiteNavbar extends HTMLElement {
       ? SITE_CONFIG.logoUrl
       : 'assets/images/logo-akrefitas.png';
 
-    // Pastikan jika SITE_CONFIG.audioUrl kosong, gunakan default path
-    const audioSrc = (typeof SITE_CONFIG !== 'undefined' && SITE_CONFIG.audioUrl && SITE_CONFIG.audioUrl.trim() !== '')
+    // Normalisasi audio URL agar valid di localhost maupun GitHub Pages subfolder
+    const rawAudioPath = (typeof SITE_CONFIG !== 'undefined' && SITE_CONFIG.audioUrl)
       ? SITE_CONFIG.audioUrl
       : 'assets/audio/theme.mp3';
+
+    const absoluteAudioUrl = new URL(rawAudioPath, window.location.href).href;
 
     this.innerHTML = `
       <div class="nav-backdrop" id="navBackdrop"></div>
       <nav class="navbar" id="navbar">
         <div class="container nav-container">
+          <!-- LOGO BRAND -->
           <a href="index.html#hero" class="nav-brand">
             <span class="brand-monogram">
               <img src="${logoSrc}" alt="Logo AKREFITAS 2027" class="brand-logo-img" 
@@ -37,6 +40,7 @@ class SiteNavbar extends HTMLElement {
             </span>
           </a>
 
+          <!-- MENU NAVIGASI -->
           <div class="nav-menu" id="navMenu">
             <a href="index.html#hero" class="nav-link">BERANDA</a>
             <a href="index.html#tentang" class="nav-link">TENTANG</a>
@@ -45,7 +49,7 @@ class SiteNavbar extends HTMLElement {
 
             <!-- DROPDOWN INFORMASI -->
             <div class="nav-dropdown" id="infoDropdown">
-              <button class="nav-link nav-dropdown-toggle" id="dropdownBtn" aria-expanded="false">
+              <button type="button" class="nav-link nav-dropdown-toggle" id="dropdownBtn" aria-expanded="false">
                 <span>INFORMASI</span>
                 <svg class="dropdown-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <polyline points="6 9 12 15 18 9"/>
@@ -65,12 +69,12 @@ class SiteNavbar extends HTMLElement {
             <a href="${regUrl}" class="nav-cta btn-register" target="_blank" rel="noopener">DAFTAR SEKARANG</a>
           </div>
 
-          <!-- NAVBAR RIGHT ACTIONS: AUDIO CONTROLLER + HAMBURGER -->
+          <!-- NAVBAR RIGHT ACTIONS (AUDIO + HAMBURGER) -->
           <div class="nav-right-actions">
             <!-- AUDIO CONTROLLER INTEGRATED -->
             <div class="nav-audio-controller" id="navAudioWidget">
-              <audio id="navbarAudio" src="${audioSrc}" loop preload="auto"></audio>
-              <button class="nav-audio-btn" id="navAudioBtn" aria-label="Toggle Musik Tema" title="Nyalakan/Matikan Musik Tema">
+              <audio id="navbarAudio" src="${absoluteAudioUrl}" loop preload="auto"></audio>
+              <button type="button" class="nav-audio-btn" id="navAudioBtn" aria-label="Toggle Musik Tema" title="Nyalakan/Matikan Musik Tema">
                 <div class="audio-equalizer">
                   <span class="eq-bar bar-1"></span>
                   <span class="eq-bar bar-2"></span>
@@ -88,7 +92,8 @@ class SiteNavbar extends HTMLElement {
               </button>
             </div>
 
-            <button class="hamburger-btn" id="hamburgerBtn" aria-label="Buka Menu Navigasi" aria-expanded="false">
+            <!-- HAMBURGER MENU -->
+            <button type="button" class="hamburger-btn" id="hamburgerBtn" aria-label="Buka Menu Navigasi" aria-expanded="false">
               <span></span>
               <span></span>
               <span></span>
@@ -110,6 +115,7 @@ class SiteNavbar extends HTMLElement {
     const dropdownToggle = this.querySelector('#dropdownBtn');
     const dropdownParent = this.querySelector('#infoDropdown');
 
+    // Sticky scroll effect
     window.addEventListener('scroll', () => {
       if (window.scrollY > 30) {
         navbar.classList.add('scrolled');
@@ -146,14 +152,16 @@ class SiteNavbar extends HTMLElement {
 
     backdrop.addEventListener('click', closeMenu);
 
+    // Dropdown Toggle (Desktop & Mobile Accordion)
     dropdownToggle.addEventListener('click', (e) => {
       e.preventDefault();
-      e.stopPropagation();
+      e.stopPropagation(); // Mencegah klik menutup menu drawer mobile
       const isCurrentlyActive = dropdownParent.classList.contains('active');
       dropdownParent.classList.toggle('active', !isCurrentlyActive);
       dropdownToggle.setAttribute('aria-expanded', !isCurrentlyActive);
     });
 
+    // Menutup dropdown saat cursor keluar dari dropdown di desktop
     dropdownParent.addEventListener('mouseleave', () => {
       if (window.innerWidth > 768) {
         dropdownParent.classList.remove('active');
@@ -161,6 +169,7 @@ class SiteNavbar extends HTMLElement {
       }
     });
 
+    // Menutup dropdown jika klik di area luar
     document.addEventListener('click', (e) => {
       if (!dropdownParent.contains(e.target)) {
         dropdownParent.classList.remove('active');
@@ -168,6 +177,7 @@ class SiteNavbar extends HTMLElement {
       }
     });
 
+    // Hanya link biasa (bukan tombol toggle dropdown) yang menutup menu drawer
     const regularNavLinks = navMenu.querySelectorAll('a:not(.nav-dropdown-toggle)');
     regularNavLinks.forEach(link => {
       link.addEventListener('click', () => {
@@ -182,10 +192,16 @@ class SiteNavbar extends HTMLElement {
     const widget = this.querySelector('#navAudioWidget');
     if (!audio || !toggleBtn) return;
 
+    // Paksa load audio metadata
+    try {
+      audio.load();
+    } catch (e) {}
+
     audio.volume = (typeof SITE_CONFIG !== 'undefined' && SITE_CONFIG.audioVolume) 
       ? SITE_CONFIG.audioVolume 
       : 0.5;
 
+    // Pulihkan detik lagu dari sessionStorage jika ada
     const savedTime = sessionStorage.getItem('akrefitas_audio_time');
     if (savedTime && !isNaN(parseFloat(savedTime))) {
       audio.currentTime = parseFloat(savedTime);
@@ -211,7 +227,8 @@ class SiteNavbar extends HTMLElement {
         promise.then(() => {
           sessionStorage.setItem('akrefitas_audio_playing', 'true');
         }).catch((err) => {
-          console.warn("Autoplay ditahan browser sampai ada interaksi:", err.message);
+          // Normal jika browser membatasi autoplay sebelum ada gestur
+          console.warn("Autoplay status:", err.message);
         });
       }
     };
@@ -221,7 +238,7 @@ class SiteNavbar extends HTMLElement {
       sessionStorage.setItem('akrefitas_audio_playing', 'false');
     };
 
-    // First click handler di layar dokumen
+    // 1. First user interaction unlock (Sentuhan/klik pertama di layar)
     const handleFirstGesture = (e) => {
       if (toggleBtn.contains(e.target)) return;
 
@@ -230,16 +247,16 @@ class SiteNavbar extends HTMLElement {
         playTheme();
       }
 
-      ['click', 'touchstart', 'keydown'].forEach(evt => {
-        document.removeEventListener(evt, handleFirstGesture);
+      ['pointerdown', 'touchstart', 'click', 'keydown'].forEach(evt => {
+        window.removeEventListener(evt, handleFirstGesture, true);
       });
     };
 
-    ['click', 'touchstart', 'keydown'].forEach(evt => {
-      document.addEventListener(evt, handleFirstGesture, { once: true });
+    ['pointerdown', 'touchstart', 'click', 'keydown'].forEach(evt => {
+      window.addEventListener(evt, handleFirstGesture, { capture: true, once: true });
     });
 
-    // KONTROL TOMBOL DI NAVBAR (Bebas dari typo xq)
+    // 2. Kontrol Tombol Manual di Navbar
     toggleBtn.addEventListener('click', (e) => {
       e.preventDefault();
       e.stopPropagation();
@@ -252,6 +269,11 @@ class SiteNavbar extends HTMLElement {
         pauseTheme();
       }
     });
+
+    // Jika sebelumnya di halaman lain statusnya sudah bermain, lanjutkan
+    if (sessionStorage.getItem('akrefitas_audio_playing') === 'true') {
+      playTheme();
+    }
   }
 }
 
