@@ -15,7 +15,7 @@ class SiteNavbar extends HTMLElement {
     // Pastikan jika SITE_CONFIG.audioUrl kosong, gunakan default path
     const audioSrc = (typeof SITE_CONFIG !== 'undefined' && SITE_CONFIG.audioUrl && SITE_CONFIG.audioUrl.trim() !== '')
       ? SITE_CONFIG.audioUrl
-      : 'assets/audio/theme.MP3';
+      : 'assets/audio/theme.mp3';
 
     this.innerHTML = `
       <div class="nav-backdrop" id="navBackdrop"></div>
