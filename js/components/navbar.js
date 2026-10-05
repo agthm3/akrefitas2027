@@ -181,7 +181,7 @@ class SiteNavbar extends HTMLElement {
     });
   }
 
-  initAudioLogic() {
+ initAudioLogic() {
     const audio = this.querySelector('#navbarAudio');
     const toggleBtn = this.querySelector('#navAudioBtn');
     const widget = this.querySelector('#navAudioWidget');
@@ -191,19 +191,25 @@ class SiteNavbar extends HTMLElement {
       ? SITE_CONFIG.audioVolume 
       : 0.45;
 
-    // Pulihkan progres audio dari sessionStorage
+    // Pulihkan progres detik lagu jika ada
     const savedTime = sessionStorage.getItem('akrefitas_audio_time');
-    if (savedTime) audio.currentTime = parseFloat(savedTime);
+    if (savedTime) {
+      audio.currentTime = parseFloat(savedTime);
+    }
 
     const wasPlaying = sessionStorage.getItem('akrefitas_audio_playing') === 'true';
 
     const playAudio = () => {
-      audio.play().then(() => {
-        widget.classList.add('playing');
-        sessionStorage.setItem('akrefitas_audio_playing', 'true');
-      }).catch(() => {
-        console.warn("Autoplay policy: menunggu interaksi pertama.");
-      });
+      const playPromise = audio.play();
+      if (playPromise !== undefined) {
+        playPromise.then(() => {
+          widget.classList.add('playing');
+          sessionStorage.setItem('akrefitas_audio_playing', 'true');
+        }).catch(err => {
+          // Normal jika browser memblokir sebelum interaksi pertama
+          console.warn("Autoplay policy: menunggu interaksi pertama.");
+        });
+      }
     };
 
     const pauseAudio = () => {
@@ -216,21 +222,30 @@ class SiteNavbar extends HTMLElement {
       sessionStorage.setItem('akrefitas_audio_time', audio.currentTime);
     });
 
+    // Jika sebelumnya di halaman lain musik sudah menyala, coba putar
     if (wasPlaying) {
       playAudio();
     }
 
-    const handleFirstTouch = () => {
-      if (audio.paused && sessionStorage.getItem('akrefitas_audio_user_muted') !== 'true') {
+    // LISTENER INTERAKSI GLOBAL (Window Level + Capture Mode)
+    // Menangkap klik, tap layar HP, scroll, atau tombol keyboard apa pun
+    const triggerAudioOnFirstAction = () => {
+      if (sessionStorage.getItem('akrefitas_audio_user_muted') !== 'true') {
         playAudio();
       }
-      ['click', 'touchstart'].forEach(e => document.removeEventListener(e, handleFirstTouch));
+      
+      // Bersihkan event setelah interaksi pertama berhasil dideteksi
+      ['pointerdown', 'touchstart', 'click', 'keydown'].forEach(evt => {
+        window.removeEventListener(evt, triggerAudioOnFirstAction, true);
+      });
     };
 
-    if (!wasPlaying) {
-      ['click', 'touchstart'].forEach(e => document.addEventListener(e, handleFirstTouch, { once: true }));
-    }
+    // Pasang listener di window dengan capture: true agar tidak terhalang elemen lain
+    ['pointerdown', 'touchstart', 'click', 'keydown'].forEach(evt => {
+      window.addEventListener(evt, triggerAudioOnFirstAction, { capture: true, once: true });
+    });
 
+    // Tombol Toggle di Navbar
     toggleBtn.addEventListener('click', (e) => {
       e.stopPropagation();
       if (!audio.paused) {
