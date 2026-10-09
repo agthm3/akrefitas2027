@@ -150,3 +150,37 @@ function initHeroLogo() {
   heroLogo.src = logoSrc;
   heroLogo.style.display = "inline-block";
 }
+
+function initExternalLinks() {
+  if (typeof SITE_CONFIG === 'undefined') return;
+
+  // Link Formulir Pendaftaran
+  document.querySelectorAll('.btn-register').forEach(el => {
+    if (SITE_CONFIG.registrationUrl) el.href = SITE_CONFIG.registrationUrl;
+  });
+
+  // Link Juknis
+  document.querySelectorAll('.btn-juknis').forEach(el => {
+    if (SITE_CONFIG.juknisUrl) el.href = SITE_CONFIG.juknisUrl;
+  });
+
+  // Link Formulir Berkas
+  document.querySelectorAll('.btn-formulir').forEach(el => {
+    if (SITE_CONFIG.formUrl) el.href = SITE_CONFIG.formUrl;
+  });
+
+  // Link Panduan
+  document.querySelectorAll('.btn-panduan').forEach(el => {
+    if (SITE_CONFIG.guideUrl) el.href = SITE_CONFIG.guideUrl;
+  });
+
+  // Link Dokumen Lainnya
+  document.querySelectorAll('.btn-dokumen-lain').forEach(el => {
+    if (SITE_CONFIG.otherDocsUrl) el.href = SITE_CONFIG.otherDocsUrl;
+  });
+
+  // LINK GOOGLE DRIVE LOGO & ASSETS (TAMBAHKAN INI)
+  document.querySelectorAll('.btn-brand-assets').forEach(el => {
+    if (SITE_CONFIG.brandAssetsUrl) el.href = SITE_CONFIG.brandAssetsUrl;
+  });
+}

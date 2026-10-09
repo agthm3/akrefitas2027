@@ -5,7 +5,7 @@
 
 const SITE_CONFIG = {
   // External Links (Google Forms, Google Drive, WhatsApp, Medsos)
-  registrationUrl: "https://forms.google.com/your-registration-form-id",
+  registrationUrl: "https://forms.gle/KxyNp6W35V1LzUPT8",
   juknisUrl: "https://drive.google.com/file/d/your-juknis-id/view",
   formulirUrl: "https://drive.google.com/file/d/your-formulir-id/view",
   panduanUrl: "https://drive.google.com/file/d/your-panduan-id/view",
@@ -16,6 +16,8 @@ const SITE_CONFIG = {
   youtubeUrl: "https://youtube.com/@akrefitas",
   tiktokUrl: "https://tiktok.com/@akrefitas",
   audioUrl: "assets/audio/theme.mp3",
+  logoUrl: "assets/images/logo-akrefitas-merah.png",
+  brandAssetsUrl: "https://drive.google.com/drive/folders/1M4fscJDx2UTiHbHKQHZBz17tTV_vnkLf?usp=sharing",
   audioVolume: 0.45,
   heroBackgroundImage: "assets/images/hero-web-art2.jpg",
   logoUrl: "assets/images/logo-akrefitas.png",
@@ -347,10 +349,10 @@ const SITE_CONFIG = {
 
     // 4. COSTER (HANYA 1 ORANG)
     coster: {
-      name: "Arya Bima Perkasa",
+      name: "Ibni",
       role: "Chief Field Marshal / Coster Utama",
       element: "FIRE",
-      image: "assets/images/panitia/5.png",
+      image: "assets/images/panitia/1.png",
       division: "Komandan Lapangan & Pengendali Teknis",
       quote: "Memastikan denyut alur lapangan bergerak selaras dengan ritme 4 elemen."
     }

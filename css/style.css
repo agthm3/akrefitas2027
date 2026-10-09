@@ -2041,3 +2041,77 @@ body.menu-locked {
   position: relative;
   z-index: 1002; /* Berada di atas layer lain */
 }
+
+/* ==========================================================================
+   CUSTOM TYPOGRAPHY LOGO DI HERO TITLE
+   ========================================================================== */
+.hero-title-custom-typo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  margin: 0.5rem 0 1rem;
+}
+
+.hero-title-custom-typo .hero-title-main {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-typo-logo {
+  max-width: 90vw;
+  width: 800px;         /* Ukuran lebar ideal di desktop */
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 6px 18px rgba(0, 0, 0, 0.45));
+  transition: transform 0.3s ease;
+}
+
+.hero-typo-logo:hover {
+  transform: scale(1.02);
+}
+
+/* Responsif Mobile untuk Tipografi */
+@media (max-width: 768px) {
+  .hero-title-custom-typo {
+    gap: 0.25rem;
+  }
+  .hero-typo-logo {
+    width: 290px;       /* Proporsional di layar HP */
+  }
+}
+
+/* ==========================================================================
+   DOWNLOAD LOGO & BRAND ASSETS
+   ========================================================================== */
+.btn-download-asset {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-color: rgba(224, 86, 36, 0.45);
+}
+
+.btn-download-asset:hover {
+  border-color: var(--color-fire);
+  color: #fff;
+  box-shadow: 0 0 14px rgba(224, 86, 36, 0.35);
+}
+
+.inline-icon {
+  width: 1.1rem;
+  height: 1.1rem;
+  vertical-align: middle;
+}
+
+.doc-item-highlight {
+  border-color: rgba(224, 86, 36, 0.4);
+  background: linear-gradient(135deg, rgba(62, 43, 31, 0.6) 0%, rgba(224, 86, 36, 0.1) 100%);
+}
+
+.doc-item-highlight:hover {
+  border-color: var(--color-fire);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(224, 86, 36, 0.25);
+}
