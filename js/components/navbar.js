@@ -1,5 +1,5 @@
 /**
- * AKREFITAS 2027 — NAVBAR DENGAN INTEGRATED AUDIO CONTROLLER & DROPDOWN (LENGKAP)
+ * AKREFITAS 2027 — NAVBAR DENGAN INTEGRATED AUDIO CONTROLLER & VERTICAL HAMBURGER
  */
 
 class SiteNavbar extends HTMLElement {
@@ -69,7 +69,7 @@ class SiteNavbar extends HTMLElement {
             <a href="${regUrl}" class="nav-cta btn-register" target="_blank" rel="noopener">DAFTAR SEKARANG</a>
           </div>
 
-          <!-- NAVBAR RIGHT ACTIONS (AUDIO + HAMBURGER) -->
+          <!-- NAVBAR RIGHT ACTIONS (AUDIO + VERTICAL HAMBURGER) -->
           <div class="nav-right-actions">
             <!-- AUDIO CONTROLLER INTEGRATED -->
             <div class="nav-audio-controller" id="navAudioWidget">
@@ -92,11 +92,11 @@ class SiteNavbar extends HTMLElement {
               </button>
             </div>
 
-            <!-- HAMBURGER MENU -->
-            <button type="button" class="hamburger-btn" id="hamburgerBtn" aria-label="Buka Menu Navigasi" aria-expanded="false">
-              <span></span>
-              <span></span>
-              <span></span>
+            <!-- VERTICAL HAMBURGER BUTTON (TANPA TEKS) -->
+            <button type="button" class="hamburger-btn hamburger-vertical" id="hamburgerBtn" aria-label="Buka Menu Navigasi" aria-expanded="false">
+              <span class="v-bar bar-top"></span>
+              <span class="v-bar bar-mid"></span>
+              <span class="v-bar bar-bot"></span>
             </button>
           </div>
         </div>
@@ -115,7 +115,6 @@ class SiteNavbar extends HTMLElement {
     const dropdownToggle = this.querySelector('#dropdownBtn');
     const dropdownParent = this.querySelector('#infoDropdown');
 
-    // Sticky scroll effect
     window.addEventListener('scroll', () => {
       if (window.scrollY > 30) {
         navbar.classList.add('scrolled');
@@ -142,7 +141,8 @@ class SiteNavbar extends HTMLElement {
       dropdownToggle.setAttribute('aria-expanded', 'false');
     };
 
-    hamburger.addEventListener('click', () => {
+    hamburger.addEventListener('click', (e) => {
+      e.stopPropagation();
       if (navMenu.classList.contains('open')) {
         closeMenu();
       } else {
@@ -152,16 +152,14 @@ class SiteNavbar extends HTMLElement {
 
     backdrop.addEventListener('click', closeMenu);
 
-    // Dropdown Toggle (Desktop & Mobile Accordion)
     dropdownToggle.addEventListener('click', (e) => {
       e.preventDefault();
-      e.stopPropagation(); // Mencegah klik menutup menu drawer mobile
+      e.stopPropagation();
       const isCurrentlyActive = dropdownParent.classList.contains('active');
       dropdownParent.classList.toggle('active', !isCurrentlyActive);
       dropdownToggle.setAttribute('aria-expanded', !isCurrentlyActive);
     });
 
-    // Menutup dropdown saat cursor keluar dari dropdown di desktop
     dropdownParent.addEventListener('mouseleave', () => {
       if (window.innerWidth > 768) {
         dropdownParent.classList.remove('active');
@@ -169,7 +167,6 @@ class SiteNavbar extends HTMLElement {
       }
     });
 
-    // Menutup dropdown jika klik di area luar
     document.addEventListener('click', (e) => {
       if (!dropdownParent.contains(e.target)) {
         dropdownParent.classList.remove('active');
@@ -177,7 +174,6 @@ class SiteNavbar extends HTMLElement {
       }
     });
 
-    // Hanya link biasa (bukan tombol toggle dropdown) yang menutup menu drawer
     const regularNavLinks = navMenu.querySelectorAll('a:not(.nav-dropdown-toggle)');
     regularNavLinks.forEach(link => {
       link.addEventListener('click', () => {
@@ -196,7 +192,6 @@ class SiteNavbar extends HTMLElement {
       ? SITE_CONFIG.audioVolume 
       : 0.5;
 
-    // Pulihkan progres detik lagu jika ada
     const savedTime = sessionStorage.getItem('akrefitas_audio_time');
     if (savedTime && !isNaN(parseFloat(savedTime))) {
       audio.currentTime = parseFloat(savedTime);
@@ -232,7 +227,6 @@ class SiteNavbar extends HTMLElement {
       sessionStorage.setItem('akrefitas_audio_playing', 'false');
     };
 
-    // 1. KONTROL TOMBOL DI NAVBAR (Bisa Klik / Tap Langsung di Mobile)
     const handleToggleClick = (e) => {
       e.preventDefault();
       e.stopPropagation();
@@ -249,10 +243,7 @@ class SiteNavbar extends HTMLElement {
     toggleBtn.addEventListener('click', handleToggleClick);
     toggleBtn.addEventListener('touchend', handleToggleClick);
 
-    // 2. UNLOCK KHUSUS MOBILE (Menggunakan 'touchend' Aktif, BUKAN Passive)
-    // Di iOS Safari & Chrome Mobile, 'touchend' adalah event paling valid untuk membuka kunci audio
     const unlockMobileAudio = (e) => {
-      // Jika sentuhan mengenai tombol toggle itu sendiri, biarkan listener tombol yang menangani
       if (toggleBtn.contains(e.target)) return;
 
       const isUserMuted = sessionStorage.getItem('akrefitas_audio_user_muted') === 'true';
@@ -260,18 +251,15 @@ class SiteNavbar extends HTMLElement {
         playTheme();
       }
 
-      // Hapus listener setelah sentuhan pertama berhasil
       ['touchend', 'click'].forEach(evt => {
         document.removeEventListener(evt, unlockMobileAudio, false);
       });
     };
 
-    // Pasang di document dengan passive: false (krusial untuk mobile browser!)
     ['touchend', 'click'].forEach(evt => {
       document.addEventListener(evt, unlockMobileAudio, { capture: false, once: true, passive: false });
     });
 
-    // Jika sebelumnya di halaman lain statusnya sudah bermain, lanjutkan
     if (sessionStorage.getItem('akrefitas_audio_playing') === 'true') {
       playTheme();
     }
