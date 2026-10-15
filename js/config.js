@@ -16,7 +16,7 @@ const SITE_CONFIG = {
   youtubeUrl: "https://youtube.com/@akrefitas",
   tiktokUrl: "https://tiktok.com/@akrefitas",
   audioUrl: "assets/audio/theme.mp3",
-  logoUrl: "assets/images/logo-akrefitas-merah.png",
+  logoUrl: "assets/images/logo-akrefitas-merah-2.png",
   brandAssetsUrl: "https://drive.google.com/drive/folders/1M4fscJDx2UTiHbHKQHZBz17tTV_vnkLf?usp=sharing",
   audioVolume: 0.45,
   heroBackgroundImage: "assets/images/hero-web-art2.jpg",
