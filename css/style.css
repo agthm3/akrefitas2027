@@ -1567,8 +1567,9 @@ body.menu-locked {
 
 /* Tambahkan styling ini agar logo gambar ukurannya rapi dan proporsional */
 .brand-logo-img {
-  width: 38px;
   height: 38px;
+  width: auto;
+  max-width: 140px;
   object-fit: contain;
   display: block;
   flex-shrink: 0;

@@ -10,7 +10,7 @@ class SiteNavbar extends HTMLElement {
 
     const logoSrc = (typeof SITE_CONFIG !== 'undefined' && SITE_CONFIG.logoUrl)
       ? SITE_CONFIG.logoUrl
-      : 'assets/images/logo-akrefitas.png';
+      : 'assets/images/logo-akrefitas-merah.png';
 
     // Normalisasi audio URL agar valid di localhost maupun GitHub Pages subfolder
     const rawAudioPath = (typeof SITE_CONFIG !== 'undefined' && SITE_CONFIG.audioUrl)
@@ -24,19 +24,11 @@ class SiteNavbar extends HTMLElement {
       <nav class="navbar" id="navbar">
         <div class="container nav-container">
           <!-- LOGO BRAND -->
-          <a href="index.html#hero" class="nav-brand">
-            <span class="brand-monogram">
-              <img src="${logoSrc}" alt="Logo AKREFITAS 2027" class="brand-logo-img" 
-                   onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-              <svg viewBox="0 0 100 100" class="brand-glyph" style="display: none;">
-                <circle cx="50" cy="50" r="44" stroke="currentColor" stroke-width="2.5" fill="none" opacity="0.4" stroke-dasharray="4 2"/>
-                <path d="M50 16 L78 78 L50 64 L22 78 Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
-                <circle cx="50" cy="46" r="6" fill="currentColor"/>
-              </svg>
-            </span>
-            <span class="brand-text">
-              <strong>AKREFITAS</strong>
-              <small>2027</small>
+          <a href="index.html#hero" class="nav-brand" aria-label="AKREFITAS 2027">
+            <img src="${logoSrc}" alt="AKREFITAS 2027" class="brand-logo-img" 
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <span class="brand-text-fallback" style="display: none; font-family: var(--font-display); font-weight: 700; letter-spacing: 0.1em;">
+              AKREFITAS 2027
             </span>
           </a>
 

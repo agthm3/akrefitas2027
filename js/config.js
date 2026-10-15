@@ -20,7 +20,6 @@ const SITE_CONFIG = {
   brandAssetsUrl: "https://drive.google.com/drive/folders/1M4fscJDx2UTiHbHKQHZBz17tTV_vnkLf?usp=sharing",
   audioVolume: 0.45,
   heroBackgroundImage: "assets/images/hero-web-art2.jpg",
-  logoUrl: "assets/images/logo-akrefitas.png",
   // TARGET TANGGAL EVENT (DUMMY 2027)
   // Menuju hari puncak pelaksanaan: 14 Agustus 2027 pukul 08:00:00 WITA
   eventDate: "2027-08-14T08:00:00",
